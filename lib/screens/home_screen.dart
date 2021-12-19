@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_test/providers/auth_provider.dart';
+import 'package:flutter_firebase_test/services/auth_service.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -7,6 +7,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final authService = Provider.of<AuthService>(context);
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -18,9 +21,9 @@ class HomeScreen extends StatelessWidget {
             const Text('Home Screen'),
             ElevatedButton (
               child: const Text('Sign out'),
-              onPressed: () {
-                // final authProvider = Provider.of<AuthProvider>(context, listen: false);
-                // authProvider.isLoggedIn = false;
+              onPressed: () async{
+                await authService.signOut();
+                Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
               },
             ),
           ],

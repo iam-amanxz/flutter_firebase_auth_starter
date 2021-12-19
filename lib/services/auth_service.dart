@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_firebase_test/models/user.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
@@ -21,17 +20,23 @@ class AuthService {
   }
 
   Future<User?> signInWithEmailAndPassword(String email, String password) async{
-    // Todo: implement validations
-    final credential = await _auth.signInWithEmailAndPassword(email: email, password: password);
 
-    return _userFromFirebaseUser(credential.user); 
+    try {
+      final credential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return _userFromFirebaseUser(credential.user); 
+    } catch (e) {
+      throw e.toString();
+    }
   }
 
   Future<User?> registerWithEmailAndPassword(String email, String password) async{
-    // Todo: implement validations
-    final credential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-
-    return _userFromFirebaseUser(credential.user); 
+    
+    try {
+      final credential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      return _userFromFirebaseUser(credential.user); 
+    } catch (e) {
+      throw e.toString();
+    }
   }
 
   Future<void> signOut() async{
