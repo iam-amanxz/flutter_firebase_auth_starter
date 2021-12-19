@@ -104,6 +104,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.pushNamedAndRemoveUntil(context, '/register', (route) => false);
                 }
               ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                child: const Text('Continue With Google'),
+                onPressed: () async {
+                  try {
+                    await authService.signInWithGoogle();
+                    Navigator.of(context).pushReplacementNamed('/');
+                  } catch (e) {
+                    _setError(e.toString());
+                  }
+                }
+              ),
               Text(_error ,
                 style: const TextStyle(color: Colors.red, fontSize: 16),
               ),
